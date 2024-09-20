@@ -1,3 +1,5 @@
 class Student < ApplicationRecord
-    has_one_attached :profile_pic
+    validates :school_email, uniqueness: true
+    validates :first_name, :last_name, :school_email, :major, presence: true
+    #has_one_attached :profile_pic
 end

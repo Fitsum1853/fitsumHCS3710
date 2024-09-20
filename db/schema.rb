@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_09_19_185150) do
+ActiveRecord::Schema[7.1].define(version: 2024_09_20_015752) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -40,11 +40,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_19_185150) do
   end
 
   create_table "students", force: :cascade do |t|
-    t.string "first_name"
-    t.string "last_name"
-    t.string "school_email"
-    t.string "major"
-    t.string "minor"
+    t.string "first_name", null: false
+    t.string "last_name", null: false
+    t.string "school_email", null: false
+    t.string "major", null: false
     t.date "graduation_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
