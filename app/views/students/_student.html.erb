@@ -24,4 +24,13 @@
     <%= student.graduation_date %>
   </p>
 
+  <p>
+    <strong>Profile Pic:</strong><br>
+    <% if student.profile_pic.attached? %>
+      <%= image_tag student.profile_pic.variant(resize: "150x150") %>
+    <% else %>
+      <%= image_tag 'https://via.placeholder.com/150' %>
+    <% end %>
+  </p>
+
 </div>
