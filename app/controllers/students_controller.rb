@@ -6,6 +6,17 @@ class StudentsController < ApplicationController
     @students = Student.all
   end
 
+   # GET /students or /students.json
+ def index
+  @search_params = params[:search] || {}
+  @students = Student.all
+
+  if @search_params[:major].present?
+    @students = @students.where(major: @search_params[:major])
+  end
+
+end
+
   # GET /students/1 or /students/1.json
   def show
   end
@@ -20,6 +31,7 @@ class StudentsController < ApplicationController
   end
 
   # POST /students or /students.json
+  
   def create
     @student = Student.new(student_params)
 
