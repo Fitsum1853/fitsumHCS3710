@@ -1,37 +1,50 @@
 class StudentsController < ApplicationController
   before_action :set_student, only: %i[ show edit update destroy ]
 
-  # GET /students or /students.json
+#  def index
+ #   @students = Student.all
+  #end
+
+  # GET /students or /students.json. Search based on major
   def index
-    @students = Student.all
-  end
-
-   # GET /students or /students.json
- def index
-  @search_params = params[:search] || {}
-  @students = Student.all
-
-  if @search_params[:major].present?
-    @students = @students.where(major: @search_params[:major])
-  end
-
-end
-
-  # GET /students/1 or /students/1.json
+    @search_params = params[:search] || {}  # Ensure @search_params is a hash
+    
+    # Start with an empty relation, so no students are shown initially
+    @students = Student.none
+  
+    # Display students only if search parameters are present or "Show All" is clicked
+    if @search_params.present?
+      @students = Student.all
+  
+      # Filter by major
+      if @search_params[:major].present?
+        @students = @students.where(major: @search_params[:major])
+      end
+  
+      # Filter by graduation date
+      if @search_params[:graduation_date_filter].present? && @search_params[:graduation_date].present?
+        date = Date.parse(@search_params[:graduation_date])
+        if @search_params[:graduation_date_filter] == 'before'
+          @students = @students.where('graduation_date < ?', date)
+        elsif @search_params[:graduation_date_filter] == 'after'
+          @students = @students.where('graduation_date > ?', date)
+        end
+      end
+    elsif params[:show_all]  # If "Show All" is clicked
+      @students = Student.all
+    end
+  end  
+  
   def show
   end
 
-  # GET /students/new
   def new
     @student = Student.new
   end
 
-  # GET /students/1/edit
   def edit
   end
 
-  # POST /students or /students.json
-  
   def create
     @student = Student.new(student_params)
 
@@ -46,7 +59,6 @@ end
     end
   end
 
-  # PATCH/PUT /students/1 or /students/1.json
   def update
     respond_to do |format|
       if @student.update(student_params)
@@ -59,7 +71,6 @@ end
     end
   end
 
-  # DELETE /students/1 or /students/1.json
   def destroy
     @student.destroy!
 
@@ -70,12 +81,10 @@ end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_student
       @student = Student.find(params[:id])
     end
 
-    # Only allow a list of trusted parameters through.
     def student_params
       params.require(:student).permit(:first_name, :last_name, :school_email, :major, :graduation_date, :profile_pic)
     end

@@ -1,17 +1,40 @@
 <p style="color: green"><%= notice %></p>
-
 <h1>Students</h1>
-
-<div id="students">
-  <% @students.each do |student| %>
-    <%= render student %>
-    <p>
-      <%= link_to "Show this student", student %>
-    </p>
-  <% end %>
-</div>
-
-<%= link_to "New student", new_student_path %>
+<%= link_to "New student", new_student_path, class: "btn btn-success mb-3" %>
 
 <!-- Render the search form partial -->
 <%= render 'search_form', search_params: @search_params %>
+
+<%= link_to "Show All", students_path(show_all: true), class: "btn btn-secondary mb-3" %>
+
+<% if @students.any? %>
+  <h2>Search Results</h2>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Major</th>
+        <th>Graduation Date</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @students.each do |student| %>
+        <tr>
+          <td><%= student.first_name %></td>
+          <td><%= student.last_name %></td>
+          <td><%= student.major %></td>
+          <td><%= student.graduation_date %></td>
+          <td>
+            <%= link_to 'Show', student, class: "btn btn-info btn-sm" %>
+            <%= link_to 'Edit', edit_student_path(student), class: "btn btn-warning btn-sm" %>
+            <%= link_to 'Delete', student, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger btn-sm" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p>No students to display. Please use the search form to find students by major or graduation date, or click "Show All" to display all students.</p>
+<% end %>
