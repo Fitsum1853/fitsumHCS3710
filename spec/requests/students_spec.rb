@@ -34,7 +34,7 @@ describe "POST /students" do
       }.to change(Student, :count).by(1)
       expect(response).to have_http_status(:found)  # Expect redirect after creation
       follow_redirect!
-      expect(response.body).to include("Aaron")  # Student's details in the response
+      expect(response.body).to include("Aaron ")  # Student's details in the response
     end
   end
 end
