@@ -1,7 +1,8 @@
 class Student < ApplicationRecord
     validates :school_email, uniqueness: true
-    validates :first_name, :last_name, :school_email, :major, presence: true
+    validates :first_name, :last_name, :school_email, :major, :graduation_date, presence: true
     has_one_attached :profile_pic
+    #validates :profile_pic, presence: true
     has_one_attached :profile_pic, dependent: :purge_later
     VALID_MAJORS = ["Computer Engineering BS", "Computer Information Systems BS",
     "Computer Science BS", "Cybersecurity Major", "Data Science and Machine Learning Major"]
